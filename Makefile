@@ -10,3 +10,6 @@ migrate-up:
 
 migrate-down:
 	migrate -path ./database/migrations -database "postgres://user:password@localhost:5432/database?sslmode=disable" down
+
+generate-secret:
+	openssl rand -hex 32
