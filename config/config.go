@@ -6,15 +6,6 @@ import (
 	"github.com/spf13/viper"
 )
 
-type AppConfig struct {
-	DBHost     string
-	DBPort     int
-	DBUsername string
-	DBPassword string
-	DBDatabase string
-	DBSSLMode  string
-}
-
 func LoadConfig(configFile string) (*AppConfig, error) {
 	viper.SetConfigFile(configFile)
 	viper.SetConfigType("yaml")
@@ -37,5 +28,13 @@ func LoadConfig(configFile string) (*AppConfig, error) {
 }
 
 func (c *AppConfig) DBConnectionString() string {
-	return fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=%s", c.DBHost, c.DBPort, c.DBUsername, c.DBPassword, c.DBDatabase, c.DBSSLMode)
+	return fmt.Sprintf(
+		"host=%s port=%d user=%s password=%s dbname=%s sslmode=%s",
+		c.Postgres.Host,
+		c.Postgres.Port,
+		c.Postgres.Username,
+		c.Postgres.Password,
+		c.Postgres.Database,
+		c.Postgres.SSLMode,
+	)
 }
