@@ -22,10 +22,10 @@ func InitDB(cfg *config.AppConfig) (*sql.DB, error) {
 		return nil, err
 	}
 
-	db.SetMaxOpenConns(10)
-	db.SetMaxIdleConns(5)
-	db.SetConnMaxIdleTime(10 * time.Minute)
-	db.SetConnMaxLifetime(30 * time.Minute)
+	conn.SetMaxOpenConns(10)
+	conn.SetMaxIdleConns(5)
+	conn.SetConnMaxIdleTime(10 * time.Minute)
+	conn.SetConnMaxLifetime(30 * time.Minute)
 
 	db = conn
 	return db, nil
