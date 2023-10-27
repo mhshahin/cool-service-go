@@ -1,11 +1,13 @@
 package handler
 
+import "github.com/cool-service-go/repository"
+
 type Handler struct {
 	UserHandler *UserHandler
 }
 
-func NewHandler() *Handler {
+func NewHandler(repo *repository.Repository) *Handler {
 	return &Handler{
-		UserHandler: NewUserHandler(),
+		UserHandler: NewUserHandler(repo),
 	}
 }
