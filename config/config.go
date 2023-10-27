@@ -29,11 +29,11 @@ func LoadConfig(configFile string) (*AppConfig, error) {
 
 func (c *AppConfig) DBConnectionString() string {
 	return fmt.Sprintf(
-		"host=%s port=%d user=%s password=%s dbname=%s sslmode=%s",
-		c.Postgres.Host,
-		c.Postgres.Port,
+		"postgresql://%s:%s@%s:%d/%s?sslmode=%s",
 		c.Postgres.Username,
 		c.Postgres.Password,
+		c.Postgres.Host,
+		c.Postgres.Port,
 		c.Postgres.Database,
 		c.Postgres.SSLMode,
 	)
