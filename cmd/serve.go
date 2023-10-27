@@ -4,6 +4,7 @@ import (
 	"github.com/cool-service-go/config"
 	"github.com/cool-service-go/database"
 	"github.com/cool-service-go/handler"
+	"github.com/cool-service-go/middleware"
 	"github.com/cool-service-go/repository"
 	"github.com/cool-service-go/route"
 	"github.com/cool-service-go/service"
@@ -36,11 +37,12 @@ func serve() {
 
 	repo := repository.NewRepository(db)
 	service := service.NewService(cfg)
-	handler := handler.NewHandler(repo, service)
+	handler := handler.NewHandler(cfg, repo, service)
 
 	e := echo.New()
 
-	route.InitRoutes(e, handler)
+	middleware := middleware.NewMiddleware(cfg, service)
+	route.InitRoutes(e, handler, middleware)
 
 	e.Logger.Fatal(e.Start(":5060"))
 }
