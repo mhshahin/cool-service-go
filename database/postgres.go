@@ -2,6 +2,7 @@ package database
 
 import (
 	"database/sql"
+	"time"
 
 	"github.com/cool-service-go/config"
 	_ "github.com/lib/pq"
@@ -20,6 +21,11 @@ func InitDB(cfg *config.AppConfig) (*sql.DB, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	db.SetMaxOpenConns(10)
+	db.SetMaxIdleConns(5)
+	db.SetConnMaxIdleTime(10 * time.Minute)
+	db.SetConnMaxLifetime(30 * time.Minute)
 
 	db = conn
 	return db, nil
