@@ -1,0 +1,11 @@
+postgres:
+  host: localhost
+  port: 5432
+  username: yourusername
+  password: yourpassword
+  database: yourdatabase
+  ssl_mode: disable
+
+opa:
+  enabled: false
+  policies_file: filepath
