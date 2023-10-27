@@ -11,6 +11,6 @@ type Service struct {
 
 func NewService(cfg *config.AppConfig) *Service {
 	return &Service{
-		OpaService: opaservice.NewOpaService(cfg.OPA.PoliciesFile),
+		OpaService: opaservice.NewOpaService(cfg),
 	}
 }
