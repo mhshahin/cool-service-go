@@ -15,10 +15,12 @@ type AppConfig struct {
 	DBSSLMode  string
 }
 
-func LoadConfig() (*AppConfig, error) {
-	viper.SetConfigName("config")
-	viper.AddConfigPath(".")
+func LoadConfig(configFile string) (*AppConfig, error) {
+	viper.SetConfigFile(configFile)
 	viper.SetConfigType("yaml")
+	viper.AddConfigPath(".")
+	viper.AutomaticEnv()
+	viper.SetEnvPrefix("cool_service")
 
 	err := viper.ReadInConfig()
 	if err != nil {
