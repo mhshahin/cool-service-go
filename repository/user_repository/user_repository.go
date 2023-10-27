@@ -5,6 +5,7 @@ import (
 	"database/sql"
 
 	"github.com/cool-service-go/model"
+	"github.com/lib/pq"
 )
 
 type UserRepository struct {
@@ -34,9 +35,9 @@ func (ur UserRepository) GetUsers(ctx context.Context) ([]model.User, error) {
 
 		err := rows.Scan(
 			&user.ID,
+			&user.Email,
 			&user.FirstName,
 			&user.LastName,
-			&user.Email,
 			&user.CreatedAt,
 			&user.UpdatedAt,
 		)
@@ -50,4 +51,36 @@ func (ur UserRepository) GetUsers(ctx context.Context) ([]model.User, error) {
 	return users, nil
 }
 
-func (ur UserRepository) AddUsers() {}
+func (ur UserRepository) AddUsers(ctx context.Context, users []*model.User) error {
+	tnx, err := ur.db.BeginTx(ctx, &sql.TxOptions{})
+	if err != nil {
+		return err
+	}
+	defer tnx.Rollback()
+
+	stmt, err := tnx.Prepare(pq.CopyIn("users", "email", "first_name", "last_name"))
+	if err != nil {
+		return err
+	}
+	defer stmt.Close()
+
+	for _, user := range users {
+		_, err := stmt.ExecContext(ctx, user.Email, user.FirstName, user.LastName)
+		if err != nil {
+			return err
+		}
+	}
+
+	// Complete the COPY operation within the transaction
+	_, err = stmt.Exec()
+	if err != nil {
+		return err
+	}
+
+	err = tnx.Commit()
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
