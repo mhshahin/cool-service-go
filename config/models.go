@@ -1,5 +1,7 @@
 package config
 
+import "time"
+
 type AppConfig struct {
 	Postgres Postgres `mapstructure:"postgres"`
 	OPA      OPA      `mapstructure:"opa"`
@@ -15,6 +17,7 @@ type Postgres struct {
 }
 
 type OPA struct {
-	Enabled      bool   `mapstructure:"enabled"`
-	PoliciesFile string `mapstructure:"policies_file"`
+	Enabled bool          `mapstructure:"enabled"`
+	URL     string        `mapstructure:"url"`
+	Timeout time.Duration `mapstructure:"timeout"`
 }
