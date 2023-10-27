@@ -1,19 +1,20 @@
 package config
 
 type AppConfig struct {
-	Postgres Postgres
-	OPA      OPA
+	Postgres Postgres `mapstructure:"postgres"`
+	OPA      OPA      `mapstructure:"opa"`
 }
 
 type Postgres struct {
-	Host     string
-	Port     int
-	Username string
-	Password string
-	Database string
-	SSLMode  string
+	Host     string `mapstructure:"host"`
+	Port     int    `mapstructure:"port"`
+	Username string `mapstructure:"username"`
+	Password string `mapstructure:"password"`
+	Database string `mapstructure:"database"`
+	SSLMode  string `mapstructure:"ssl_mode"`
 }
 
 type OPA struct {
-	PoliciesFile string
+	Enabled      bool   `mapstructure:"enabled"`
+	PoliciesFile string `mapstructure:"policies_file"`
 }
