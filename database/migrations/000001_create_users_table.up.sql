@@ -1,0 +1,11 @@
+-- Create the "users" table
+CREATE TABLE IF NOT EXISTS users (
+	id BIGSERIAL PRIMARY KEY,
+	first_name VARCHAR(100) NOT NULL,
+	last_name VARCHAR(100) NOT NULL,
+	email VARCHAR(150) NOT NULL,
+	created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
+	updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(0)
+);
+
+CREATE UNIQUE INDEX idx_email_users ON users(email);
