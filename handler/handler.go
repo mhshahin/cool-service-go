@@ -1,16 +1,21 @@
 package handler
 
 import (
+	"github.com/cool-service-go/config"
 	"github.com/cool-service-go/repository"
 	"github.com/cool-service-go/service"
 )
 
+type H map[string]interface{}
+
 type Handler struct {
 	UserHandler *UserHandler
+	AuthHandler *AuthHandler
 }
 
-func NewHandler(repo *repository.Repository, service *service.Service) *Handler {
+func NewHandler(cfg *config.AppConfig, repo *repository.Repository, service *service.Service) *Handler {
 	return &Handler{
 		UserHandler: NewUserHandler(repo),
+		AuthHandler: NewAuthHandler(cfg),
 	}
 }
