@@ -11,8 +11,6 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-type H map[string]interface{}
-
 type UserHandler struct {
 	repo *repository.Repository
 }
