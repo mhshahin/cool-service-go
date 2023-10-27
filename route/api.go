@@ -13,7 +13,10 @@ func InitRoutes(e *echo.Echo, handler *handler.Handler, middleware *middleware.M
 		middleware.JwtMiddleware.Middleware,
 		middleware.OpaMiddleware.Middleware,
 	)
-	api.POST("/users", handler.UserHandler.AddUsers())
+	api.POST("/users", handler.UserHandler.AddUsers(),
+		middleware.JwtMiddleware.Middleware,
+		middleware.OpaMiddleware.Middleware,
+	)
 
 	authApi := api.Group("/auth")
 	authApi.POST("/token", handler.AuthHandler.CreateToken())
