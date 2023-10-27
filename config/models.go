@@ -5,6 +5,7 @@ import "time"
 type AppConfig struct {
 	Postgres Postgres `mapstructure:"postgres"`
 	OPA      OPA      `mapstructure:"opa"`
+	JWT      JWT      `mapstructure:"jwt"`
 }
 
 type Postgres struct {
@@ -20,4 +21,9 @@ type OPA struct {
 	Enabled bool          `mapstructure:"enabled"`
 	URL     string        `mapstructure:"url"`
 	Timeout time.Duration `mapstructure:"timeout"`
+}
+
+type JWT struct {
+	Secret             string        `mapstructure:"secret"`
+	ExpirationDuration time.Duration `mapstructure:"expiration_duration"`
 }
