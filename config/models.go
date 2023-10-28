@@ -9,12 +9,14 @@ type AppConfig struct {
 }
 
 type Postgres struct {
-	Host     string `mapstructure:"host"`
-	Port     int    `mapstructure:"port"`
-	Username string `mapstructure:"username"`
-	Password string `mapstructure:"password"`
-	Database string `mapstructure:"database"`
-	SSLMode  string `mapstructure:"ssl_mode"`
+	Host               string `mapstructure:"host"`
+	Port               int    `mapstructure:"port"`
+	Username           string `mapstructure:"username"`
+	Password           string `mapstructure:"password"`
+	Database           string `mapstructure:"database"`
+	SSLMode            string `mapstructure:"ssl_mode"`
+	MaxOpenConnections int    `mapstructure:"max_open_connections"`
+	MaxIdleConnections int    `mapstructure:"max_idle_connections"`
 }
 
 type OPA struct {
