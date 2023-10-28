@@ -9,6 +9,7 @@ import (
 	"github.com/mhshahin/cool-service-go/repository"
 	"github.com/mhshahin/cool-service-go/route"
 	"github.com/mhshahin/cool-service-go/service"
+	"github.com/mhshahin/cool-service-go/utility/logger"
 	"github.com/spf13/cobra"
 )
 
@@ -26,6 +27,11 @@ var serveCmd = &cobra.Command{
 
 func serve() {
 	cfg, err := config.LoadConfig(cfgFile)
+	if err != nil {
+		panic(err)
+	}
+
+	err = logger.InitLogger(cfg)
 	if err != nil {
 		panic(err)
 	}
