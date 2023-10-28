@@ -8,17 +8,21 @@ import (
 	"github.com/mhshahin/cool-service-go/config"
 	"github.com/mhshahin/cool-service-go/model"
 	"github.com/mhshahin/cool-service-go/service"
+	"github.com/mhshahin/cool-service-go/utility/logger"
+	"go.uber.org/zap"
 )
 
 type OpaMiddleware struct {
 	service *service.Service
 	cfg     *config.AppConfig
+	logger  *zap.SugaredLogger
 }
 
 func NewOpaMiddleware(cfg *config.AppConfig, service *service.Service) *OpaMiddleware {
 	return &OpaMiddleware{
 		service: service,
 		cfg:     cfg,
+		logger:  logger.GetSugaredLogger(),
 	}
 }
 
@@ -41,11 +45,15 @@ func (om *OpaMiddleware) Middleware(next echo.HandlerFunc) echo.HandlerFunc {
 
 		result, err := om.service.OpaService.Validate(newOpaRequest)
 		if err != nil {
-			return c.JSON(http.StatusForbidden, "unauthorized")
+			om.logger.Errorw(
+				"there was an error validating the access",
+				"error", err,
+			)
+			return c.JSON(http.StatusUnauthorized, "Unauthorized")
 		}
 
 		if !result {
-			return c.JSON(http.StatusForbidden, "unauthorized")
+			return c.JSON(http.StatusUnauthorized, "Unauthorized")
 		}
 
 		return next(c)
