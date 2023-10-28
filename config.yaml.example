@@ -5,6 +5,8 @@ postgres:
   password: yourpassword
   database: yourdatabase
   ssl_mode: disable
+  max_open_connections: 10
+  max_idle_connections: 5
 
 opa:
   enabled: false
