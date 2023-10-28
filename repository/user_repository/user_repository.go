@@ -36,8 +36,7 @@ func (ur UserRepository) GetUsers(ctx context.Context) ([]model.User, error) {
 		err := rows.Scan(
 			&user.ID,
 			&user.Email,
-			&user.FirstName,
-			&user.LastName,
+			&user.Name,
 			&user.CreatedAt,
 			&user.UpdatedAt,
 		)
@@ -58,14 +57,14 @@ func (ur UserRepository) AddUsers(ctx context.Context, users []*model.User) erro
 	}
 	defer tnx.Rollback()
 
-	stmt, err := tnx.Prepare(pq.CopyIn("users", "email", "first_name", "last_name"))
+	stmt, err := tnx.Prepare(pq.CopyIn("users", "email", "name"))
 	if err != nil {
 		return err
 	}
 	defer stmt.Close()
 
 	for _, user := range users {
-		_, err := stmt.ExecContext(ctx, user.Email, user.FirstName, user.LastName)
+		_, err := stmt.ExecContext(ctx, user.Email, user.Name)
 		if err != nil {
 			return err
 		}
