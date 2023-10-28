@@ -16,3 +16,8 @@ opa:
 jwt:
   secret: "d94d1b416493cfe0c4dfd4a8f87d46cdc52dfbae4bd0b36790e5d2311dda3d86"
   expiration_duration: "72h"
+
+log:
+  file_log_level: info
+  stdout_log_level: info
+  log_file_path: /tmp/logs
