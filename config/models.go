@@ -6,6 +6,7 @@ type AppConfig struct {
 	Postgres Postgres `mapstructure:"postgres"`
 	OPA      OPA      `mapstructure:"opa"`
 	JWT      JWT      `mapstructure:"jwt"`
+	Log      Log      `mapstructure:"log"`
 }
 
 type Postgres struct {
@@ -28,4 +29,10 @@ type OPA struct {
 type JWT struct {
 	Secret             string        `mapstructure:"secret"`
 	ExpirationDuration time.Duration `mapstructure:"expiration_duration"`
+}
+
+type Log struct {
+	FileLogLevel   string `mapstructure:"file_log_level"`
+	StdoutLogLevel string `mapstructure:"stdout_log_level"`
+	LogFilePath    string `mapstructure:"log_file_path"`
 }
