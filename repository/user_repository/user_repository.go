@@ -4,15 +4,20 @@ import (
 	"context"
 	"database/sql"
 
-	"github.com/cool-service-go/model"
 	"github.com/lib/pq"
+	"github.com/mhshahin/cool-service-go/model"
 )
+
+type User interface {
+	GetUsers(ctx context.Context) ([]model.User, error)
+	AddUsers(ctx context.Context, users []*model.User) error
+}
 
 type UserRepository struct {
 	db *sql.DB
 }
 
-func NewUserRepository(db *sql.DB) *UserRepository {
+func NewUserRepository(db *sql.DB) User {
 	return &UserRepository{
 		db: db,
 	}

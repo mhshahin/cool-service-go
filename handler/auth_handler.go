@@ -6,10 +6,10 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/cool-service-go/config"
-	"github.com/cool-service-go/model"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/labstack/echo/v4"
+	"github.com/mhshahin/cool-service-go/config"
+	"github.com/mhshahin/cool-service-go/model"
 )
 
 type AuthHandler struct {

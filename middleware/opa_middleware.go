@@ -4,10 +4,10 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/cool-service-go/config"
-	"github.com/cool-service-go/model"
-	"github.com/cool-service-go/service"
 	"github.com/labstack/echo/v4"
+	"github.com/mhshahin/cool-service-go/config"
+	"github.com/mhshahin/cool-service-go/model"
+	"github.com/mhshahin/cool-service-go/service"
 )
 
 type OpaMiddleware struct {

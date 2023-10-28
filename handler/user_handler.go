@@ -6,9 +6,9 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/cool-service-go/model"
-	"github.com/cool-service-go/repository"
 	"github.com/labstack/echo/v4"
+	"github.com/mhshahin/cool-service-go/model"
+	"github.com/mhshahin/cool-service-go/repository"
 )
 
 type UserHandler struct {

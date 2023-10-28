@@ -1,8 +1,8 @@
 package service
 
 import (
-	"github.com/cool-service-go/config"
-	opaservice "github.com/cool-service-go/service/opa_service"
+	"github.com/mhshahin/cool-service-go/config"
+	opaservice "github.com/mhshahin/cool-service-go/service/opa_service"
 )
 
 type Service struct {

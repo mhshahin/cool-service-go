@@ -1,9 +1,9 @@
 package route
 
 import (
-	"github.com/cool-service-go/handler"
-	"github.com/cool-service-go/middleware"
 	"github.com/labstack/echo/v4"
+	"github.com/mhshahin/cool-service-go/handler"
+	"github.com/mhshahin/cool-service-go/middleware"
 )
 
 func InitRoutes(e *echo.Echo, handler *handler.Handler, middleware *middleware.Middleware) {

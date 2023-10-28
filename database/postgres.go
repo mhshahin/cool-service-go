@@ -4,8 +4,8 @@ import (
 	"database/sql"
 	"time"
 
-	"github.com/cool-service-go/config"
 	_ "github.com/lib/pq"
+	"github.com/mhshahin/cool-service-go/config"
 )
 
 var db *sql.DB

@@ -1,14 +1,14 @@
 package cmd
 
 import (
-	"github.com/cool-service-go/config"
-	"github.com/cool-service-go/database"
-	"github.com/cool-service-go/handler"
-	"github.com/cool-service-go/middleware"
-	"github.com/cool-service-go/repository"
-	"github.com/cool-service-go/route"
-	"github.com/cool-service-go/service"
 	"github.com/labstack/echo/v4"
+	"github.com/mhshahin/cool-service-go/config"
+	"github.com/mhshahin/cool-service-go/database"
+	"github.com/mhshahin/cool-service-go/handler"
+	"github.com/mhshahin/cool-service-go/middleware"
+	"github.com/mhshahin/cool-service-go/repository"
+	"github.com/mhshahin/cool-service-go/route"
+	"github.com/mhshahin/cool-service-go/service"
 	"github.com/spf13/cobra"
 )
 

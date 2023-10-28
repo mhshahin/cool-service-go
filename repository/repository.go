@@ -3,11 +3,11 @@ package repository
 import (
 	"database/sql"
 
-	userrepository "github.com/cool-service-go/repository/user_repository"
+	userrepository "github.com/mhshahin/cool-service-go/repository/user_repository"
 )
 
 type Repository struct {
-	UserRepository *userrepository.UserRepository
+	UserRepository userrepository.User
 }
 
 func NewRepository(db *sql.DB) *Repository {

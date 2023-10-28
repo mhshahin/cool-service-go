@@ -1,4 +1,4 @@
-module github.com/cool-service-go
+module github.com/mhshahin/cool-service-go
 
 go 1.20
 

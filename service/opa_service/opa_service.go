@@ -7,8 +7,8 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/cool-service-go/config"
-	"github.com/cool-service-go/model"
+	"github.com/mhshahin/cool-service-go/config"
+	"github.com/mhshahin/cool-service-go/model"
 )
 
 type OpaService struct {

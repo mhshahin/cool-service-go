@@ -1,9 +1,9 @@
 package handler
 
 import (
-	"github.com/cool-service-go/config"
-	"github.com/cool-service-go/repository"
-	"github.com/cool-service-go/service"
+	"github.com/mhshahin/cool-service-go/config"
+	"github.com/mhshahin/cool-service-go/repository"
+	"github.com/mhshahin/cool-service-go/service"
 )
 
 type H map[string]interface{}

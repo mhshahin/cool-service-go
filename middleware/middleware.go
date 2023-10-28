@@ -1,8 +1,8 @@
 package middleware
 
 import (
-	"github.com/cool-service-go/config"
-	"github.com/cool-service-go/service"
+	"github.com/mhshahin/cool-service-go/config"
+	"github.com/mhshahin/cool-service-go/service"
 )
 
 type Middleware struct {
