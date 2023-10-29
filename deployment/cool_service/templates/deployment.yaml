@@ -32,7 +32,7 @@ spec:
     spec:
       containers:
         - name: coolservice
-          image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          image: "{{ .Values.image.repository }}:latest"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command:
 {{ toYaml .Values.image.coolservice.command | indent 12 }}
