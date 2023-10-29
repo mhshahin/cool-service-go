@@ -1,0 +1,7 @@
+apiVersion: v2
+name: opa
+description: A Helm chart for OPA
+
+type: application
+
+version: 0.1.0

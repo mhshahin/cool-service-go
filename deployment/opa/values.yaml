@@ -1,0 +1,67 @@
+fullnameOverride: opa
+version: edge-rootless
+dnsPolicy: ClusterFirst
+restartPolicy: Always
+terminationGracePeriodSeconds: 30
+namespace: mhshahin
+
+rollingStrategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxSurge: 1
+    maxUnavailable: 0
+
+replicaCount: 1
+
+image:
+  repository: openpolicyagent/opa
+  pullPolicy: IfNotPresent
+  tag: edge-rootless
+  opa:
+    args:
+     - "run"
+     - "--server"
+     - "--log-level"
+     - "error"
+     - "--bundle"
+     - "/policies"
+    resources:
+      limits:
+        cpu: "0.5"
+        memory: 200Mi
+      requests:
+        cpu: "0.2"
+        memory: 100Mi
+    ports:
+      - containerPort: 8181
+        name: http
+    volumeMounts:
+      - name: opa-config
+        mountPath: /policies/swisscom.rego
+        subPath: swisscom.rego
+        readOnly: true
+
+service:
+  opa:
+    port: 80
+    name: opa-tcp
+    protocol: TCP
+    targetPort: 8181
+
+config: |
+  package swisscom
+
+  default allow = false
+
+  allow {
+      input.path = ["api", "users"]
+      input.method = "GET"
+      input.authenticated
+  }
+
+  allow {
+      input.path = ["api", "users"]
+      input.method = "POST"
+      input.authenticated
+      input.role == "admin"
+  }
