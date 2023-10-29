@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [ "master" ]
 
+env:
+  DOCKER_USER: ${{secrets.DOCKER_USER}}
+  DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+
 jobs:
 
   build:
@@ -15,18 +19,15 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Docker login
-      env:
-        DOCKER_USER: ${{secrets.DOCKER_USER}}
-        DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
       run: |
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+    - name: Get current date
+      id: date
+      run: |
+        echo "::set-output name=date::$(date +'%Y-%m-%d--%M-%S')"
     - name: Build the Docker image
-      env:
-        DOCKER_USER: ${{secrets.DOCKER_USER}}
       run: |
-        docker build . --file Dockerfile --tag $DOCKER_USER/cool-service-go:$(date +%s)
+        docker build . --file Dockerfile --tag $DOCKER_USER/cool-service-go:${{ steps.date.outputs.date }}
     - name: Docker Push
-      env:
-        DOCKER_USER: ${{secrets.DOCKER_USER}}
       run: |
-        docker push $DOCKER_USER/cool-service-go
+        docker push $DOCKER_USER/cool-service-go:${{ steps.date.outputs.date }}
