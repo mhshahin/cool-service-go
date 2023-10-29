@@ -14,10 +14,9 @@ rollingStrategy:
 replicaCount: 1
 
 image:
-  registry: image-registry.openshift-image-registry.svc:5000 # TODO: change
-  repository: finance/coolservice # TODO: change
+  repository: mhshahin/cool-service-go
   pullPolicy: Always
-  tag: master
+  tag: latest
   coolservice:
     command: [ '/app/cool-service', '-c', '/app/config.yaml', 'serve' ]
     resources:
@@ -74,18 +73,18 @@ service:
 
 config:
   postgres:
-    host: localhost
+    host: postgresql
     port: 5432
-    username: yourusername
-    password: yourpassword
-    database: yourdatabase
+    username: postgres
+    password: roIoPj6Hja
+    database: swisscom
     ssl_mode: disable
     max_open_connections: 10
     max_idle_connections: 5
 
   opa:
     enabled: true
-    url: "http://localhost:8181/v1/data/example/allow"
+    url: "http://opa/v1/data/swisscom/allow"
     timeout: "2s"
 
   jwt:
@@ -95,7 +94,7 @@ config:
   log:
     file_log_level: info
     stdout_log_level: info
-    log_file_path: /tmp/logs
+    log_file_path: /app/logs
 
 filebeat:
   filebeat.inputs:
