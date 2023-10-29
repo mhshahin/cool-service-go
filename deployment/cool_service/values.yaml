@@ -1,0 +1,116 @@
+fullnameOverride: coolservice
+version: master
+dnsPolicy: ClusterFirst
+restartPolicy: Always
+terminationGracePeriodSeconds: 30
+namespace: mhshahin
+
+rollingStrategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxSurge: 1
+    maxUnavailable: 0
+
+replicaCount: 1
+
+image:
+  registry: image-registry.openshift-image-registry.svc:5000 # TODO: change
+  repository: finance/coolservice # TODO: change
+  pullPolicy: Always
+  tag: master
+  coolservice:
+    command: [ '/app/cool-service', '-c', '/app/config.yaml', 'serve' ]
+    resources:
+      limits:
+        cpu: "0.7"
+        memory: 300Mi
+      requests:
+        cpu: "0.4"
+        memory: 150Mi
+    readinessProbe:
+      failureThreshold: 3
+      tcpSocket:
+        port: 5060
+      initialDelaySeconds: 15
+      periodSeconds: 20
+    livenessProbe:
+      failureThreshold: 5
+      tcpSocket:
+        port: 5060
+      initialDelaySeconds: 15
+      periodSeconds: 20
+    ports:
+      - containerPort: 5060
+        name: http
+    volumeMounts:
+      - name: coolservice-config
+        mountPath: /app/config.yaml
+        subPath: config.yaml
+        readOnly: true
+      - name: storage-volume
+        mountPath: /app/logs
+  filebeat:
+    enabled: false
+    resources:
+      limits:
+        cpu: "0.05"
+        memory: 200Mi
+      requests:
+        cpu: "0.02"
+        memory: 150Mi
+    volumeMounts:
+      - name: storage-volume
+        mountPath: /app/logs
+      - name: coolservice-config
+        mountPath: "/usr/share/filebeat/filebeat.yml"
+        subPath: filebeat.yaml
+
+service:
+  coolservice:
+    port: 80
+    name: coolservice-tcp
+    protocol: TCP
+    targetPort: 5060
+
+config:
+  postgres:
+    host: localhost
+    port: 5432
+    username: yourusername
+    password: yourpassword
+    database: yourdatabase
+    ssl_mode: disable
+    max_open_connections: 10
+    max_idle_connections: 5
+
+  opa:
+    enabled: true
+    url: "http://localhost:8181/v1/data/example/allow"
+    timeout: "2s"
+
+  jwt:
+    secret: "d94d1b416493cfe0c4dfd4a8f87d46cdc52dfbae4bd0b36790e5d2311dda3d86"
+    expiration_duration: "72h"
+ 
+  log:
+    file_log_level: info
+    stdout_log_level: info
+    log_file_path: /tmp/logs
+
+filebeat:
+  filebeat.inputs:
+    - type: log
+      encoding: utf-8
+      document_type: log
+      paths:
+        - /app/logs/*.log
+      json:
+        keys_under_root: false
+      exclude_files: ['\.gz$']
+      ignore_older: 2h
+  output.logstash:
+    hosts: ["172.16.78.71:10070"] # TODO: change
+    bulk_max_size: 4096
+    slow_start: true
+    loadbalance: true
+    worker: 3

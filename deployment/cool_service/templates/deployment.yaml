@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "coolservice.fullname" . }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ include "coolservice.fullname" . }}
+    name: {{ include "coolservice.fullname" . }}
+    version: {{ .Values.version }}
+    {{- if .Values.commonLabels }}
+    {{- .Values.commonLabels | toYaml | nindent 4 }}
+    {{- end }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  minReadySeconds: {{ .Values.minReadySeconds }}
+  selector:
+    matchLabels:
+      app: {{ include "coolservice.fullname" . }}
+  {{- if .Values.rollingStrategy }}
+  strategy:
+    {{- toYaml .Values.rollingStrategy | nindent 4 }}
+  {{- end }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "coolservice.fullname" . }}
+        name: {{ include "coolservice.fullname" . }}
+        version: {{ .Values.version }}
+        {{- if .Values.commonLabels }}
+{{- .Values.commonLabels | toYaml | nindent 8 }}
+        {{- end }}
+    spec:
+      containers:
+        - name: coolservice
+          image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command:
+{{ toYaml .Values.image.coolservice.command | indent 12 }}
+          {{- with .Values.image.coolservice.resources }}
+          resources:
+{{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.image.coolservice.ports }}
+          ports:
+{{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- if .Values.image.coolservice.livenessProbe }}
+          livenessProbe:
+{{ toYaml .Values.image.coolservice.livenessProbe | indent 12 }}
+          {{- end }}
+          {{- if .Values.image.coolservice.readinessProbe }}
+          readinessProbe:
+{{ toYaml .Values.image.coolservice.readinessProbe | indent 12 }}
+          {{- end }}
+          volumeMounts:
+{{ toYaml .Values.image.coolservice.volumeMounts | indent 12 }}
+          {{ if .Values.image.filebeat.enabled }}
+        - name: filebeat
+          image: "elastic/filebeat:8.1.2"
+          imagePullPolicy: IfNotPresent
+          {{- with .Values.image.filebeat.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          volumeMounts:
+{{ toYaml .Values.image.filebeat.volumeMounts | indent 12 }}
+        {{ end }}
+      dnsPolicy: {{ .Values.dnsPolicy }}
+      restartPolicy: {{ .Values.restartPolicy }}
+      terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
+      volumes:
+        - name: {{ include "coolservice.fullname" . }}-config
+          configMap:
+            defaultMode: 420
+            name: {{ include "coolservice.fullname" . }}-config
+        - name: storage-volume
+          emptyDir: {}

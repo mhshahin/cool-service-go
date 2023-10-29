@@ -1,0 +1,12 @@
+apiVersion: v2
+name: coolservice
+description: A Helm chart for coolservice
+
+type: application
+
+version: 0.1.0
+
+home: https://github.com/mhshahin/coolservice-go
+maintainers:
+  - name: Mohammad Shahin
+    email: edwardshahin@gmail.com

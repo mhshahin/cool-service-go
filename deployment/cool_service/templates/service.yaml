@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "coolservice.fullname" . }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ include "coolservice.fullname" . }}
+    name: {{ include "coolservice.fullname" . }}
+    version: {{ .Values.version }}
+spec:
+  selector:
+    app: {{ include "coolservice.fullname" . }}
+  ports:
+    - name: {{ .Values.service.coolservice.name }}
+      protocol: {{ .Values.service.coolservice.protocol }}
+      port: {{ .Values.service.coolservice.port }}
+      targetPort: {{ .Values.service.coolservice.targetPort }}
+  type: NodePort
