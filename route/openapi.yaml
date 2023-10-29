@@ -1,0 +1,95 @@
+openapi: 3.1.0
+info:
+  title: Cool-Service APIs
+  version: 1.0.0
+paths:
+  /api/users:
+    get:
+      summary: Get a list of users
+      description: Returns a list of users.
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              example:
+                data:
+                  - id: 1
+                    name: mohammad shahin
+                    email: edwardshahin@gmail.com
+                    created_at: 2023-10-29T19:16:36Z
+                    updated_at: 2023-10-29T19:16:36Z
+                  - id: 2
+                    name: edward shahin
+                    email: edwardshahin@swisscom.com
+                    created_at: 2023-10-29T19:16:36Z
+                    updated_at: 2023-10-29T19:16:36Z
+                message: ok
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              example:
+                Unauthorized
+        500:
+          description: Internal Server Error
+      security:
+        - BearerAuth: []
+    post:
+      summary: Insert users into the database
+      description: Inserts a list of users into the database.
+      requestBody:
+        content:
+          application/json:
+            example:
+              - name: mohammad shahin
+                email: edwardshahin@gmail.com
+              - name: edward shahin
+                email: edwardshahin@swisscom.com
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              example:
+                data: Successfully added 2 users.
+                message: ok
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              example:
+                Unauthorized
+        500:
+          description: Internal Server Error
+      security:
+        - BearerAuth: []
+  /api/auth/token:
+    post:
+      summary: Get a JWT token
+      description: Get a JWT token for authentication.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              name: mhshahin
+              email: mhshahin91@gmail.com
+              role: admin
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              example:
+                message: ok
+                token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJOYW1lIjoibWhzaGFoaW4iLCJFbWFpbCI6Im1oc2hhaGluOTFAZ21haWwuY29tIiwiUm9sZSI6ImFkbWluIiwiZXhwIjoxNjk4ODY2MDgyfQ.FwY999DFsfdCzKuJ7SZ3MxjJBTSAQ9s7mGQR35VaK6w"
+        500:
+          description: Internal Server Error
+      security:
+        - BearerAuth: []
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
