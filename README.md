@@ -11,9 +11,9 @@ To run this service, please follow these instructions:
 
 1. Modify the settings within the `Makefile` to align with your specific environment.
 
-2. Deploy a PostgreSQL database either on your cluster or use an existing one. Optionally, you can choose to deploy PostgreSQL elsewhere. You can use the provided `Makefile`` to deploy a PostgreSQL database on your cluster.
+2. Deploy a PostgreSQL database either on your cluster or use an existing one. Optionally, you can choose to deploy PostgreSQL elsewhere. You can use the provided `Makefile` to deploy a PostgreSQL database on your cluster.
 
-3. To execute the necessary database migrations for the service, you must install the `migrate`` command on your local machine. You can do this with the following command:
+3. To execute the necessary database migrations for the service, you must install the `migrate` command on your local machine. You can do this with the following command:
 
    ```bash
    go get -u -d github.com/golang-migrate/migrate/cmd/migrate
