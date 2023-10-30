@@ -32,3 +32,5 @@ To run this service, please follow these instructions:
 6. Utilize the `deploy.sh` script within the `deployment/opa` directory to deploy the OPA service.
 
 7. Finally, employ the `deploy.sh` script located in the `deployment/cool_service` directory to deploy and run the service on your cluster.
+
+You can consult the OpenAPI file located in the `route` directory for examples demonstrating how to utilize the APIs.
